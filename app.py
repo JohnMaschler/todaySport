@@ -8,7 +8,7 @@ CORS(app, resources={r"/games": {"origins": "http://localhost:5500"}})
 
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
-@app.route('/games')
+@app.route('/')
 @cache.cached(timeout=3600) # cache it for an hour (too long?)
 def get_games():
     data = get_final_json()
