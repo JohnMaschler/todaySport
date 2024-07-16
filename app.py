@@ -4,7 +4,7 @@ from getData import get_final_json
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={r"/games": {"origins": "http://localhost:5500"}})
+CORS(app, resources={r"/": {"origins": "https://todaysport-lerxv37nxa-uc.a.run.app"}})
 
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
@@ -15,7 +15,7 @@ def get_games():
     return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
     
 """
 # better for prod?

@@ -120,11 +120,17 @@
 
     let matchups = [];
 
-	fetch('http://127.0.0.1:5000/games')
-		.then((response) => response.json())
-		.then((data) => {
-			matchups = JSON.parse(data);
-		});
+	// fetch('https://todaysport-lerxv37nxa-uc.a.run.app/')
+	// 	// .then((response) => response.json())
+	// 	.then(response => {
+	// 		if (!response.ok) {
+	// 			throw new Error('Network response was not ok');
+	// 		}
+	// 		return response.text();
+	// 	})
+	// 	.then((data) => {
+	// 		matchups = JSON.parse(data);
+	// 	});
 
 	let swiper;
 
@@ -150,7 +156,7 @@
 	});
 
 	function fetchMatchups() {
-		fetch('http://127.0.0.1:5000/games') // Make sure the URL matches your Flask app's URL and it's accessible
+		fetch('https://todaysport-lerxv37nxa-uc.a.run.app/') // Make sure the URL matches your Flask app's URL and it's accessible
 			.then((response) => {
 				if (!response.ok) {
 					throw new Error('Network response was not ok');
