@@ -4,7 +4,7 @@ from getData import get_final_json
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={r"/": {"origins": "https://todaysport-lerxv37nxa-uc.a.run.app"}})
+CORS(app)
 
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
