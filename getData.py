@@ -182,3 +182,135 @@ def get_final_json():
     # url = "https://statsapi.mlb.com/api/v1/schedule/games/?sportId=1"
     # final_string = includeGameTimes(get_game_times(url), formatData(scrapeOddsData()))
     # print(final_string)
+    
+
+
+def format_future_games(json_data):
+    data = json.loads(json_data)
+    team_mapping = {
+        "Arizona Diamondbacks": "ARI",
+        "Atlanta Braves": "ATL",
+        "Baltimore Orioles": "BAL",
+        "Boston Red Sox": "BOS",
+        "Chicago Cubs": "CHC",
+        "Chicago White Sox": "CHW",
+        "Cincinnati Reds": "CIN",
+        "Cleveland Guardians": "CLE",
+        "Colorado Rockies": "COL",
+        "Detroit Tigers": "DET",
+        "Houston Astros": "HOU",
+        "Kansas City Royals": "KC",
+        "Los Angeles Angels": "LAA",
+        "Los Angeles Dodgers": "LAD",
+        "Miami Marlins": "MIA",
+        "Milwaukee Brewers": "MIL",
+        "Minnesota Twins": "MIN",
+        "New York Mets": "NYM",
+        "New York Yankees": "NYY",
+        "Oakland Athletics": "OAK",
+        "Philadelphia Phillies": "PHI",
+        "Pittsburgh Pirates": "PIT",
+        "San Diego Padres": "SD",
+        "San Francisco Giants": "SF",
+        "Seattle Mariners": "SEA",
+        "St. Louis Cardinals": "STL",
+        "Tampa Bay Rays": "TB",
+        "Texas Rangers": "TEX",
+        "Toronto Blue Jays": "TOR",
+        "Washington Nationals": "WSH"
+    }
+    for game in data:
+        game['away_team'] = team_mapping[game['away_team']]
+        game['home_team'] = team_mapping[game['home_team']]
+        datetime_object = datetime.strptime(game['game_time'], "%Y-%m-%dT%H:%M:%SZ")
+        game['date'] = datetime_object.strftime("%Y-%m-%d")
+#         game['time'] = datetime_object.strftime("%I:%M: %p") - timedelta(hours=7)
+        new_date_obj = datetime_object - timedelta(hours=7)
+        game['time'] = new_date_obj.strftime("%I:%M: %p")
+        del game['game_time']
+
+    return json.dumps(data, indent=4)
+
+
+def fetch_future_games(start_date, end_date):
+    url = f"https://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&startDate={start_date}&endDate={end_date}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        all_games = []
+        # Iterate through each day and collect games
+        for date in data.get('dates', []):
+            if len(all_games) < 12:
+                remaining_slots = 12 - len(all_games)
+                all_games.extend(date['games'][:remaining_slots])
+        return all_games
+    else:
+        return None
+
+def organize_into_json(games):
+    organized_data = []
+    for game in games:
+        game_info = {
+            'date': game['officialDate'],
+            'away_team': game['teams']['away']['team']['name'],
+            'home_team': game['teams']['home']['team']['name'],
+            'venue': game['venue']['name'],
+            'game_time': game['gameDate']
+        }
+        organized_data.append(game_info)
+    return json.dumps(organized_data, indent=4)
+
+def map_teams_to_abbr(json_data):
+    data = json.loads(json_data)
+    team_mapping = {
+        "Arizona Diamondbacks": "ARI",
+        "Atlanta Braves": "ATL",
+        "Baltimore Orioles": "BAL",
+        "Boston Red Sox": "BOS",
+        "Chicago Cubs": "CHC",
+        "Chicago White Sox": "CHW",
+        "Cincinnati Reds": "CIN",
+        "Cleveland Guardians": "CLE",
+        "Colorado Rockies": "COL",
+        "Detroit Tigers": "DET",
+        "Houston Astros": "HOU",
+        "Kansas City Royals": "KC",
+        "Los Angeles Angels": "LAA",
+        "Los Angeles Dodgers": "LAD",
+        "Miami Marlins": "MIA",
+        "Milwaukee Brewers": "MIL",
+        "Minnesota Twins": "MIN",
+        "New York Mets": "NYM",
+        "New York Yankees": "NYY",
+        "Oakland Athletics": "OAK",
+        "Philadelphia Phillies": "PHI",
+        "Pittsburgh Pirates": "PIT",
+        "San Diego Padres": "SD",
+        "San Francisco Giants": "SF",
+        "Seattle Mariners": "SEA",
+        "St. Louis Cardinals": "STL",
+        "Tampa Bay Rays": "TB",
+        "Texas Rangers": "TEX",
+        "Toronto Blue Jays": "TOR",
+        "Washington Nationals": "WSH"
+    }
+    for game in data:
+        game['away_team'] = team_mapping[game['away_team']]
+        game['home_team'] = team_mapping[game['home_team']]
+        datetime_object = datetime.strptime(game['game_time'], "%Y-%m-%dT%H:%M:%SZ")
+        game['date'] = datetime_object.strftime("%m/%d")
+        new_date_obj = datetime_object - timedelta(hours=7)
+        game['time'] = new_date_obj.strftime("%I:%M %p")
+        del game['game_time']
+
+    return json.dumps(data, indent=4)
+
+def get_future_games_formatted():
+    tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+    week_later = (datetime.now() + timedelta(days=7)).strftime('%Y-%m-%d')
+    games_data1 = fetch_future_games(tomorrow, week_later)
+    if games_data1:
+        games = organize_into_json(games_data1)
+        return map_teams_to_abbr(games)
+    else:
+        return None

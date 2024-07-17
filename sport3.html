@@ -93,6 +93,23 @@
 		border: 1px solid #555;
 		padding: 10;
 	}
+
+	.game-date {
+		display: flex;
+		justify-content: center;
+		grid-column: span 2;
+		font-size: 14px;
+		color: #888;
+		margin-bottom: 5px;
+	}
+	.venue {
+		display: flex;
+		justify-content: center;
+		grid-column: span 2;
+		font-size: 14px;
+		color: #ccc;
+		margin-top: 2px;
+	}
 </style>
 
 <div class="swiper-container">
@@ -115,28 +132,15 @@
 
 <script>
 	// const matchups = JSON.parse(
-	// 	'[{"Visitor": "CLE", "Home": "DET", "VisitorSpread": "+1.5", "HomeSpread": "+1.5", "VisitorSpreadPercent": "40%", "HomeSpreadPercent": "60%", "VisitorMoneyLine": "+110", "HomeMoneyLine": "-120", "HomeMoneyLinePercent": "22%", "VisitorMoneyLinePercent": "78%", "TotalRuns": "o8", "TotalMoneyPercentVisitor": "79%", "TotalMoneyPercentHome": "21%", "GameTime": "10:10 AM"}, {"Visitor": "WSH", "Home": "NYM", "VisitorSpread": "+1.5", "HomeSpread": "-1.5", "VisitorSpreadPercent": "17%", "HomeSpreadPercent": "83%", "VisitorMoneyLine": "+130", "HomeMoneyLine": "-142", "HomeMoneyLinePercent": "32%", "VisitorMoneyLinePercent": "68%", "TotalRuns": "o8.5", "TotalMoneyPercentVisitor": "38%", "TotalMoneyPercentHome": "62%", "GameTime": "10:10 AM"}, {"Visitor": "COL", "Home": "CIN", "VisitorSpread": "+1.5", "HomeSpread": "-1.5", "VisitorSpreadPercent": "16%", "HomeSpreadPercent": "84%", "VisitorMoneyLine": "+175", "HomeMoneyLine": "-200", "HomeMoneyLinePercent": "7%", "VisitorMoneyLinePercent": "93%", "TotalRuns": "o8.5", "TotalMoneyPercentVisitor": "50%", "TotalMoneyPercentHome": "50%", "GameTime": "10:10 AM"}, {"Visitor": "PIT", "Home": "MIL", "VisitorSpread": "-1.5", "HomeSpread": "+1.5", "VisitorSpreadPercent": "73%", "HomeSpreadPercent": "27%", "VisitorMoneyLine": "-120", "HomeMoneyLine": "+110", "HomeMoneyLinePercent": "61%", "VisitorMoneyLinePercent": "39%", "TotalRuns": "o7.5", "TotalMoneyPercentVisitor": "64%", "TotalMoneyPercentHome": "36%", "GameTime": "11:10 AM"}, {"Visitor": "TOR", "Home": "SF", "VisitorSpread": "+1.5", "HomeSpread": "-1.5", "VisitorSpreadPercent": "52%", "HomeSpreadPercent": "48%", "VisitorMoneyLine": "+110", "HomeMoneyLine": "-124", "HomeMoneyLinePercent": "88%", "VisitorMoneyLinePercent": "12%", "TotalRuns": "o7.5", "TotalMoneyPercentVisitor": "98%", "TotalMoneyPercentHome": "2%", "GameTime": "12:45 PM"}, {"Visitor": "LAD", "Home": "PHI", "VisitorSpread": "+1.5", "HomeSpread": "-1.5", "VisitorSpreadPercent": "51%", "HomeSpreadPercent": "49%", "VisitorMoneyLine": "+126", "HomeMoneyLine": "-142", "HomeMoneyLinePercent": "90%", "VisitorMoneyLinePercent": "10%", "TotalRuns": "o9", "TotalMoneyPercentVisitor": "74%", "TotalMoneyPercentHome": "26%", "GameTime": "03:05 PM"}, {"Visitor": "CHC", "Home": "BAL", "VisitorSpread": "+1.5", "HomeSpread": "-1.5", "VisitorSpreadPercent": "5%", "HomeSpreadPercent": "95%", "VisitorMoneyLine": "+118", "HomeMoneyLine": "-130", "HomeMoneyLinePercent": "13%", "VisitorMoneyLinePercent": "87%", "TotalRuns": "o8.5", "TotalMoneyPercentVisitor": "88%", "TotalMoneyPercentHome": "12%", "GameTime": "03:35 PM"}, {"Visitor": "NYY", "Home": "TB", "VisitorSpread": "-1.5", "HomeSpread": "+1.5", "VisitorSpreadPercent": "80%", "HomeSpreadPercent": "20%", "VisitorMoneyLine": "-111", "HomeMoneyLine": "+100", "HomeMoneyLinePercent": "66%", "VisitorMoneyLinePercent": "34%", "TotalRuns": "o8", "TotalMoneyPercentVisitor": "98%", "TotalMoneyPercentHome": "2%", "GameTime": "03:50 PM"}, {"Visitor": "OAK", "Home": "BOS", "VisitorSpread": "+1.5", "HomeSpread": "-1.5", "VisitorSpreadPercent": "10%", "HomeSpreadPercent": "90%", "VisitorMoneyLine": "+196", "HomeMoneyLine": "-225", "HomeMoneyLinePercent": "6%", "VisitorMoneyLinePercent": "94%", "TotalRuns": "o9.5", "TotalMoneyPercentVisitor": "88%", "TotalMoneyPercentHome": "12%", "GameTime": "04:10 PM"}, {"Visitor": "MIA", "Home": "HOU", "VisitorSpread": "+1.5", "HomeSpread": "-1.5", "VisitorSpreadPercent": "23%", "HomeSpreadPercent": "77%", "VisitorMoneyLine": "+162", "HomeMoneyLine": "-189", "HomeMoneyLinePercent": "16%", "VisitorMoneyLinePercent": "84%", "TotalRuns": "o8.5", "TotalMoneyPercentVisitor": "93%", "TotalMoneyPercentHome": "7%", "GameTime": "05:10 PM"}, {"Visitor": "SEA", "Home": "LAA", "VisitorSpread": "-1.5", "HomeSpread": "+1.5", "VisitorSpreadPercent": "93%", "HomeSpreadPercent": "7%", "VisitorMoneyLine": "-165", "HomeMoneyLine": "+148", "HomeMoneyLinePercent": "89%", "VisitorMoneyLinePercent": "11%", "TotalRuns": "o8.5", "TotalMoneyPercentVisitor": "91%", "TotalMoneyPercentHome": "9%", "GameTime": "06:38 PM"}, {"Visitor": "ATL", "Home": "ARI", "VisitorSpread": "-1.5", "HomeSpread": "+1.5", "VisitorSpreadPercent": "84%", "HomeSpreadPercent": "16%", "VisitorMoneyLine": "-118", "HomeMoneyLine": "+100", "HomeMoneyLinePercent": "81%", "VisitorMoneyLinePercent": "19%", "TotalRuns": "o8", "TotalMoneyPercentVisitor": "3%", "TotalMoneyPercentHome": "97%", "GameTime": "06:40 PM"}]'
+	// 	'[{"Visitor": "TOR", "Home": "BAL", "VisitorSpread": "+1.5", "HomeSpread": "+1.5", "VisitorSpreadPercent": "10%", "HomeSpreadPercent": "90%", "VisitorMoneyLine": "+145", "HomeMoneyLine": "-164", "HomeMoneyLinePercent": "16%", "VisitorMoneyLinePercent": "84%", "TotalRuns": "o6", "TotalMoneyPercentVisitor": "15%", "TotalMoneyPercentHome": "85%", "GameTime": "Today"}]'
 	// );
-
-    let matchups = [];
-
-	// fetch('https://todaysport-lerxv37nxa-uc.a.run.app/')
-	// 	// .then((response) => response.json())
-	// 	.then(response => {
-	// 		if (!response.ok) {
-	// 			throw new Error('Network response was not ok');
-	// 		}
-	// 		return response.text();
-	// 	})
-	// 	.then((data) => {
-	// 		matchups = JSON.parse(data);
-	// 	});
 
 	let swiper;
 
 	document.addEventListener('DOMContentLoaded', function () {
 		swiper = new Swiper('.swiper-container', {
-			slidesPerView: 10,
+			// Default number of slides for smaller screens
+			slidesPerView: 3,
 			spaceBetween: 2,
 			pagination: {
 				el: '.swiper-pagination',
@@ -149,22 +153,55 @@
 			observer: true,
 			observeParents: true,
 			observeSlideChildren: true,
+			breakpoints: {
+				320: {
+					slidesPerView: 2,
+					spaceBetween: 2,
+				},
+				480: {
+					slidesPerView: 3,
+					spaceBetween: 2,
+				},
+				640: {
+					slidesPerView: 4,
+					spaceBetween: 2,
+				},
+				768: {
+					slidesPerView: 5,
+					spaceBetween: 2,
+				},
+				920: {
+					slidesPerView: 6,
+					spaceBetween: 2,
+				},
+				1050: {
+					slidesPerView: 7,
+					spaceBetween: 2,
+				},
+				1280: {
+					slidesPerView: 8,
+					spaceBetween: 2,
+				},
+			},
 		});
 
-        fetchMatchups();
+		// loadMatchups();
+		fetchMatchups();
 		updateDisplay();
 	});
 
 	function fetchMatchups() {
-		fetch('https://todaysport-lerxv37nxa-uc.a.run.app/') // Make sure the URL matches your Flask app's URL and it's accessible
+		fetch('https://todaysport-lerxv37nxa-uc.a.run.app/')
 			.then((response) => {
 				if (!response.ok) {
+					console.log('did not work :(');
 					throw new Error('Network response was not ok');
 				}
 				return response.json();
 			})
 			.then((data) => {
-				loadMatchups(data); // Load matchups with fetched data
+				loadMatchups(JSON.parse(data));
+				fetchFutureGames();
 			})
 			.catch((error) => {
 				console.error('Error fetching data:', error);
@@ -172,19 +209,56 @@
 			});
 	}
 
-	function loadMatchups() {
+	function fetchFutureGames() {
+		fetch('http://localhost:5000/future')
+			.then((response) => {
+				if (!response.ok) {
+					console.log('did not work :(');
+					throw new Error('Network response was not ok');
+				}
+				return response.json();
+			})
+			.then((futureData) => {
+				// console.log(futureData);
+				loadFutureGames(JSON.parse(futureData));
+			})
+			.catch((error) => {
+				console.error('Error fetching data:', error);
+				alert('Failed to fetch data from the server');
+			});
+	}
+
+	function loadMatchups(matchups) {
 		matchups.forEach((matchup, index) => {
 			const slideContent = `<div class="swiper-slide">
+	        <div class="matchup-card">
+	            <div class="game-time">${matchup.GameTime}</div>
+	            <div class="team-name">${matchup.Home}</div>
+	            <div class="team-name">${matchup.Visitor}</div>
+	            <div class="matchup-value" id="ml-${index}" style="display: flex;">${matchup.HomeMoneyLine}</div>
+	            <div class="matchup-value" id="ml-${index}" style="display: flex;">${matchup.VisitorMoneyLine}</div>
+	            <div class="matchup-value" id="spread-${index}" style="display: none;">${matchup.HomeSpreadPercent}</div>
+	            <div class="matchup-value" id="spread-${index}" style="display: none;">${matchup.VisitorSpreadPercent}</div>
+	            <div class="matchup-value" id="total-${index}" style="display: none;">${matchup.TotalMoneyPercentHome}</div>
+	            <div class="matchup-value" id="total-${index}" style="display: none;">${matchup.TotalMoneyPercentVisitor}</div>
+	        </div>
+	    </div>`;
+			swiper.appendSlide(slideContent);
+		});
+	}
+
+	function loadFutureGames(games) {
+		swiper.appendSlide(
+			`<div class="swiper-slide"><div class="matchup-card"><div class="game-time">Upcoming Games</div></div></div>`
+		);
+
+		games.forEach((game, index) => {
+			const slideContent = `<div class="swiper-slide">
             <div class="matchup-card">
-                <div class="game-time">${matchup.GameTime}</div>
-                <div class="team-name">${matchup.Home}</div>
-                <div class="team-name">${matchup.Visitor}</div>
-                <div class="matchup-value" id="ml-${index}" style="display: flex;">${matchup.HomeMoneyLine}</div>
-                <div class="matchup-value" id="ml-${index}" style="display: flex;">${matchup.VisitorMoneyLine}</div>
-                <div class="matchup-value" id="spread-${index}" style="display: none;">${matchup.HomeSpreadPercent}</div>
-                <div class="matchup-value" id="spread-${index}" style="display: none;">${matchup.VisitorSpreadPercent}</div>
-                <div class="matchup-value" id="total-${index}" style="display: none;">${matchup.TotalMoneyPercentHome}</div>
-                <div class="matchup-value" id="total-${index}" style="display: none;">${matchup.TotalMoneyPercentVisitor}</div>
+				<div class="game-date">${game.date} @ ${game.time}</div>
+                <div class="team-name">${game.home_team}</div>
+                <div class="team-name">${game.away_team}</div>
+                <div class="venue">${game.venue}</div>
             </div>
         </div>`;
 			swiper.appendSlide(slideContent);
