@@ -1,25 +1,35 @@
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
-<style>
-	.swiper-container {
-		width: 80%;
-		height: 100px;
+<!-- <style>
+	.body {
+		background-color: #1e1e1e;
+	}
+	.myCustomSwiper {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		width: 1000px;
 		margin: 20px auto;
+		max-width: 1201px;
+	}
+
+	.myCustomSwiper .swiper-container-un {
+		flex-grow: 1;
+		height: 120px;
 		position: relative;
 		overflow: hidden;
+		margin-left: 20px;
 	}
-	.swiper-slide {
-		background: #1e1e1e;
+	.myCustomSwiper .swiper-slide {
+		background: #d8d8d8;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		padding-left: 10px;
-		padding-right: 10px;
-		padding-bottom: 20px;
-		color: #fff;
+		padding: 10px;
+		color: #000000;
 		border: none;
 	}
-	.matchup-card {
+	.myCustomSwiper .matchup-card {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		grid-template-rows: auto 1fr 1px solid #444 1fr;
@@ -27,31 +37,33 @@
 		height: 80%;
 		font-size: 16px;
 		font-family: Arial, sans-serif;
-		align-items: center;
+		align-items: start;
+		margin-bottom: 10px;
 	}
-
-	.team-name {
+	.myCustomSwiper .team-name {
 		display: flex;
 		justify-content: center;
 		margin-bottom: 5px;
 		padding-bottom: 5px;
 		border-bottom: 2px solid #444;
 	}
-
-	.matchup-value {
+	.myCustomSwiper .matchup-value {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 	}
-	.game-time {
+	.myCustomSwiper .game-time,
+	.myCustomSwiper .game-date,
+	.myCustomSwiper .venue {
 		display: flex;
 		justify-content: center;
 		grid-column: span 2;
 		font-size: 14px;
-		color: #888;
+		color: #616161;
+		margin-bottom: 5px;
 	}
-	.swiper-button-prev,
-	.swiper-button-next {
+	.myCustomSwiper .swiper-button-prev,
+	.myCustomSwiper .swiper-button-next {
 		color: #fff;
 		position: absolute;
 		top: 72%;
@@ -63,70 +75,158 @@
 		border: none;
 		outline: none;
 	}
-	.swiper-button-prev {
+	.myCustomSwiper .swiper-button-prev {
 		left: 0px;
+		height: 110%;
 		background: linear-gradient(
 			to right,
 			rgba(51, 51, 51, 1),
 			rgba(51, 51, 51, 0)
 		);
 	}
-	.swiper-button-next {
+	.myCustomSwiper .swiper-button-next {
 		right: 0px;
+		height: 110%;
 		background: linear-gradient(
 			to left,
 			rgba(51, 51, 51, 1),
 			rgba(51, 51, 51, 0)
 		);
 	}
+	.myCustomSwiper #oddsType {
+		margin-left: 20px;
+		background: #dddddd;
+		color: #000000;
+		border: 1px solid #555;
+		padding: 10px;
+		width: 120px;
+	}
 	.matchup-value {
 		color: #4caf50;
 	}
-	#oddsType {
-		position: relative;
-		top: 70px;
-		left: 50px;
-		transform: translateY(-50%);
-		z-index: 100;
-		background: #1e1e1e;
-		color: #fff;
-		border: 1px solid #555;
-		padding: 10;
+</style> -->
+
+<style>
+	.body {
+		background-color: #1e1e1e;
+	}
+	.myCustomSwiper {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		width: 1000px;
+		margin: 20px auto;
+		max-width: 1201px;
 	}
 
-	.game-date {
+	.myCustomSwiper .swiper-container-un {
+		flex-grow: 1;
+		height: 150px;
+		position: relative;
+		overflow: hidden;
+		margin-left: 20px;
+	}
+	.myCustomSwiper .swiper-slide {
+		background: #d8d8d8;
 		display: flex;
 		justify-content: center;
+		align-items: center;
+		padding: 10px;
+		color: #000000;
+		border: none;
+	}
+	.myCustomSwiper .matchup-card {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: auto 1fr 1fr;
+		width: 100%;
+		height: 100%;
+		font-size: 16px;
+		font-family: Arial, sans-serif;
+		align-items: start;
+		margin-bottom: 10px;
+	}
+	.myCustomSwiper .game-time {
 		grid-column: span 2;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		font-size: 14px;
-		color: #888;
+		color: #616161;
+		border-bottom: 2px solid #444;
 		margin-bottom: 5px;
 	}
-	.venue {
+	.myCustomSwiper .team-name,
+	.myCustomSwiper .matchup-value {
 		display: flex;
 		justify-content: center;
-		grid-column: span 2;
-		font-size: 14px;
-		color: #ccc;
-		margin-top: 2px;
+		align-items: center;
+		padding: 5px;
+	}
+	.myCustomSwiper .matchup-value {
+		color: #4caf50;
+	}
+	.myCustomSwiper .swiper-button-prev,
+	.myCustomSwiper .swiper-button-next {
+		color: #fff;
+		position: absolute;
+		top: 72%;
+		transform: translateY(-50%);
+		z-index: 10;
+		height: 100px;
+		width: 30px;
+		background: linear-gradient(to right, rgba(0, 0, 0, 0.6), transparent);
+		border: none;
+		outline: none;
+	}
+	.myCustomSwiper .swiper-button-prev {
+		left: 0px;
+		height: 110%;
+		background: linear-gradient(
+			to right,
+			rgba(51, 51, 51, 1),
+			rgba(51, 51, 51, 0)
+		);
+	}
+	.myCustomSwiper .swiper-button-next {
+		right: 0px;
+		height: 110%;
+		background: linear-gradient(
+			to left,
+			rgba(51, 51, 51, 1),
+			rgba(51, 51, 51, 0)
+		);
+	}
+	.myCustomSwiper #oddsType {
+		margin-left: 20px;
+		background: #dddddd;
+		color: #000000;
+		border: 1px solid #555;
+		padding: 10px;
+		width: 120px;
 	}
 </style>
 
-<div class="swiper-container">
-	<div class="swiper-wrapper">
-		<!-- slides will populate here -->
+<div class="myCustomSwiper">
+	<select id="oddsType" onchange="updateDisplay()">
+		<option value="ml">ML</option>
+		<option value="spread">Spread</option>
+		<option value="total">Total Money</option>
+	</select>
+	<div class="swiper-container-un">
+		<div class="swiper-wrapper">
+			<!-- Slides will populate here -->
+		</div>
+		<div class="swiper-button-prev"></div>
+		<div class="swiper-button-next"></div>
 	</div>
-	<!-- <div class="swiper-pagination"></div> -->
-	<!-- If you want pagination then uncomment this line -->
-	<div class="swiper-button-prev"></div>
-	<div class="swiper-button-next"></div>
 </div>
 
-<select id="oddsType" onchange="updateDisplay()">
+<!-- <select id="oddsType" onchange="updateDisplay()">
 	<option value="ml">ML</option>
 	<option value="spread">Spread</option>
 	<option value="total">Total Money</option>
-</select>
+</select> -->
 
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
@@ -135,12 +235,12 @@
 	// 	'[{"Visitor": "TOR", "Home": "BAL", "VisitorSpread": "+1.5", "HomeSpread": "+1.5", "VisitorSpreadPercent": "10%", "HomeSpreadPercent": "90%", "VisitorMoneyLine": "+145", "HomeMoneyLine": "-164", "HomeMoneyLinePercent": "16%", "VisitorMoneyLinePercent": "84%", "TotalRuns": "o6", "TotalMoneyPercentVisitor": "15%", "TotalMoneyPercentHome": "85%", "GameTime": "Today"}]'
 	// );
 
-	let swiper;
+	let swiper1;
 
-	document.addEventListener('DOMContentLoaded', function () {
-		swiper = new Swiper('.swiper-container', {
+	window.onload = function () {
+		swiper1 = new Swiper('.myCustomSwiper .swiper-container-un', {
 			// Default number of slides for smaller screens
-			slidesPerView: 3,
+			slidesPerView: 5,
 			spaceBetween: 2,
 			pagination: {
 				el: '.swiper-pagination',
@@ -150,47 +250,50 @@
 				nextEl: '.swiper-button-next',
 				prevEl: '.swiper-button-prev',
 			},
+			loop: false,
 			observer: true,
 			observeParents: true,
 			observeSlideChildren: true,
-			breakpoints: {
-				320: {
-					slidesPerView: 2,
-					spaceBetween: 2,
-				},
-				480: {
-					slidesPerView: 3,
-					spaceBetween: 2,
-				},
-				640: {
-					slidesPerView: 4,
-					spaceBetween: 2,
-				},
-				768: {
-					slidesPerView: 5,
-					spaceBetween: 2,
-				},
-				920: {
-					slidesPerView: 6,
-					spaceBetween: 2,
-				},
-				1050: {
-					slidesPerView: 7,
-					spaceBetween: 2,
-				},
-				1280: {
-					slidesPerView: 8,
-					spaceBetween: 2,
-				},
-			},
+			// breakpoints: {
+			// 	320: {
+			// 		slidesPerView: 2,
+			// 		spaceBetween: 2,
+			// 	},
+			// 	480: {
+			// 		slidesPerView: 3,
+			// 		spaceBetween: 2,
+			// 	},
+			// 	640: {
+			// 		slidesPerView: 4,
+			// 		spaceBetween: 2,
+			// 	},
+			// 	768: {
+			// 		slidesPerView: 5,
+			// 		spaceBetween: 2,
+			// 	},
+			// 	920: {
+			// 		slidesPerView: 6,
+			// 		spaceBetween: 2,
+			// 	},
+			// 	1050: {
+			// 		slidesPerView: 7,
+			// 		spaceBetween: 2,
+			// 	},
+			// 	1280: {
+			// 		slidesPerView: 8,
+			// 		spaceBetween: 2,
+			// 	},
+			// },
 		});
 
 		// loadMatchups();
 		fetchMatchups();
-		updateDisplay();
-	});
+		// fetchFutureGames();
+		swiper1.update();
+	};
 
 	function fetchMatchups() {
+		// fetch('http://localhost:5000')
 		fetch('https://todaysport-lerxv37nxa-uc.a.run.app/')
 			.then((response) => {
 				if (!response.ok) {
@@ -210,7 +313,8 @@
 	}
 
 	function fetchFutureGames() {
-		fetch('http://localhost:5000/future')
+		// fetch('http://localhost:5000/future')
+		fetch('https://todaysport-lerxv37nxa-uc.a.run.app/future')
 			.then((response) => {
 				if (!response.ok) {
 					console.log('did not work :(');
@@ -243,12 +347,13 @@
 	            <div class="matchup-value" id="total-${index}" style="display: none;">${matchup.TotalMoneyPercentVisitor}</div>
 	        </div>
 	    </div>`;
-			swiper.appendSlide(slideContent);
+			swiper1.appendSlide(slideContent);
 		});
+		updateDisplay();
 	}
 
 	function loadFutureGames(games) {
-		swiper.appendSlide(
+		swiper1.appendSlide(
 			`<div class="swiper-slide"><div class="matchup-card"><div class="game-time">Upcoming Games</div></div></div>`
 		);
 
@@ -261,8 +366,9 @@
                 <div class="venue">${game.venue}</div>
             </div>
         </div>`;
-			swiper.appendSlide(slideContent);
+			swiper1.appendSlide(slideContent);
 		});
+		swiper1.update();
 	}
 
 	function updateDisplay() {

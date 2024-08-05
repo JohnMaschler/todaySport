@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_caching import Cache
 from getData import get_final_json, get_future_games_formatted
+from getNFLdata import final_NFL_json
 from flask_cors import CORS
 from datetime import datetime, timedelta
 import json
@@ -22,6 +23,12 @@ def get_games():
 def get_future_games():
     future_data = get_future_games_formatted()
     return jsonify(future_data)
+
+@app.route('/nfl-games', methods=['GET'])
+@cache.cached(timeout=10800)
+def get_nfl_games():
+    NFL_data = final_NFL_json() #returns type list
+    return jsonify(NFL_data)
 
 if __name__ == '__main__':
     app.run(debug=False)

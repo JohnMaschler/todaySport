@@ -1,0 +1,489 @@
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+<style>
+	.body {
+		background-color: #1e1e1e;
+	}
+	.myCustomSwiper {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		width: 1000px;
+		margin: 20px auto;
+		max-width: 1201px;
+	}
+
+	.myCustomSwiper .swiper-container-un {
+		flex-grow: 1;
+		height: 130px;
+		position: relative;
+		overflow: hidden;
+		margin-left: 20px;
+	}
+	.myCustomSwiper .swiper-slide {
+		background: #d8d8d8;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 5px;
+		color: #000000;
+		border: none;
+	}
+	.myCustomSwiper .matchup-card {
+		display: grid;
+		grid-template-rows: 20% 80%;
+		width: 100%;
+		height: 100%;
+		font-size: 14px;
+		font-family: Arial, sans-serif;
+		align-items: center;
+		margin-bottom: 5px;
+		position: relative;
+	}
+	.myCustomSwiper .game-time {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 12px;
+		color: #616161;
+		border-bottom: 1px solid #444;
+		width: 100%;
+		height: 100%;
+	}
+	.myCustomSwiper .team-section {
+		display: grid;
+		grid-template-columns: 60% 40%;
+		width: 100%;
+		height: 100%;
+		position: relative;
+	}
+	.myCustomSwiper .team-wrapper {
+		display: flex;
+		align-items: center;
+		padding: 5px;
+		justify-content: center;
+	}
+	.myCustomSwiper .team-wrapper::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 60%;
+		width: 1px;
+		background-color: #444;
+	}
+	.myCustomSwiper .team-logo {
+		margin-right: 5px;
+		width: 20px;
+		height: 20px;
+	}
+	.myCustomSwiper .team-name {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+	}
+	.myCustomSwiper .matchup-value {
+		display: flex;
+		align-items: center;
+		color: #4caf50;
+		padding: 2px;
+		justify-content: flex-start;
+		margin-left: 10px;
+	}
+	.myCustomSwiper .swiper-button-prev,
+	.myCustomSwiper .swiper-button-next {
+		color: #fff;
+		position: absolute;
+		top: 15%;
+		bottom: 0;
+		transform: none;
+		z-index: 10;
+		width: 30px;
+		background: linear-gradient(to right, rgba(0, 0, 0, 0.6), transparent);
+		border: none;
+		outline: none;
+		height: 102%;
+	}
+	.myCustomSwiper .swiper-button-prev {
+		left: 0px;
+		background: linear-gradient(
+			to right,
+			rgba(51, 51, 51, 1),
+			rgba(51, 51, 51, 0)
+		);
+	}
+	.myCustomSwiper .swiper-button-next {
+		right: 0px;
+		background: linear-gradient(
+			to left,
+			rgba(51, 51, 51, 1),
+			rgba(51, 51, 51, 0)
+		);
+	}
+	.myCustomSwiper .oddsType {
+		margin-left: 20px;
+		background: #dddddd;
+		color: #000000;
+		border: 1px solid #555;
+		padding: 5px;
+		width: 100px;
+	}
+	.myCustomSwiper #sportType {
+		margin-left: 20px;
+		background: #dddddd;
+		color: #000000;
+		border: 1px solid #555;
+		padding: 5px;
+		width: 100px;
+	}
+	.future-game-card {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+		font-size: 14px;
+		font-family: Arial, sans-serif;
+		margin-bottom: 5px;
+		position: relative;
+	}
+	.future-game-time {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 12px;
+		color: #616161;
+		border-bottom: 1px solid #444;
+		width: 100%;
+		height: 20%;
+	}
+	.future-team-section {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		width: 100%;
+		height: 60%;
+	}
+	.future-team-wrapper {
+		display: flex;
+		align-items: center;
+	}
+	.future-team-logo {
+		margin-right: 5px;
+		width: 20px;
+		height: 20px;
+	}
+	.future-venue {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 12px;
+		color: #616161;
+		margin-top: 5px;
+		width: 100%;
+		height: 20%;
+	}
+</style>
+
+<div class="myCustomSwiper">
+    <select id="sportType" onchange="updateSport()">
+        <option value="mlb">MLB</option>
+        <option value="nfl">NFL</option>
+    </select>
+	<select id="oddsType-MLB" class="oddsType" onchange="updateDisplay()">
+		<option value="ml">ML</option>
+		<option value="spread">Spread</option>
+		<option value="total">Total Money</option>
+	</select>
+	<select id="oddsType-NFL" class="oddsType" onchange="updateDisplay()">
+		<option value="ml">ML</option>
+		<option value="spread">Spread</option>
+		<option value="total">O/U</option>
+	</select>
+	<div class="swiper-container-un">
+		<div class="swiper-wrapper">
+			<!-- Slides will populate here -->
+		</div>
+		<div class="swiper-button-prev"></div>
+		<div class="swiper-button-next"></div>
+	</div>
+</div>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+    document.getElementById('oddsType-NFL').style.display = 'none';
+	let swiper1;
+
+	const teamIDs = {
+		"ARI": 109,
+		"ATL": 144,
+		"BAL": 110,
+		"BOS": 111,
+		"CHC": 112,
+		"CHW": 145,
+		"CIN": 113,
+		"CLE": 114,
+		"COL": 115,
+		"DET": 116,
+		"HOU": 117,
+		"KC": 118,
+		"LAA": 108,
+		"LAD": 119,
+		"MIA": 146,
+		"MIL": 158,
+		"MIN": 142,
+		"NYY": 147,
+		"NYM": 121,
+		"OAK": 133,
+		"PHI": 143,
+		"PIT": 134,
+		"SD": 135,
+		"SF": 137,
+		"SEA": 136,
+		"STL": 138,
+		"TB": 139,
+		"TEX": 140,
+		"TOR": 141,
+		"WSH": 120
+	};
+
+	window.onload = function () {
+		swiper1 = new Swiper('.myCustomSwiper .swiper-container-un', {
+			slidesPerView: 5,
+			spaceBetween: 2,
+			pagination: {
+				el: '.swiper-pagination',
+				clickable: true,
+			},
+			navigation: {
+				nextEl: '.swiper-button-next',
+				prevEl: '.swiper-button-prev',
+			},
+			loop: false,
+			observer: true,
+			observeParents: true,
+			observeSlideChildren: true,
+			breakpoints: {
+				320: {
+					slidesPerView: 2,
+					spaceBetween: 2,
+				},
+				480: {
+					slidesPerView: 3,
+					spaceBetween: 2,
+				},
+				640: {
+					slidesPerView: 4,
+					spaceBetween: 2,
+				},
+				768: {
+					slidesPerView: 5,
+					spaceBetween: 2,
+				},
+				920: {
+					slidesPerView: 5,
+					spaceBetween: 2,
+				},
+				1050: {
+					slidesPerView: 5,
+					spaceBetween: 2,
+				},
+				1280: {
+					slidesPerView: 5,
+					spaceBetween: 2,
+				},
+			},
+            on: {
+				slideChange: function () {
+					togglePrevButton();
+				},
+			},
+		});
+
+		fetchMatchups();
+        swiper1.update();
+        togglePrevButton();
+	};
+
+	function togglePrevButton() {
+		const prevButton = document.querySelector('.swiper-button-prev');
+		if (swiper1.activeIndex === 0) {
+			prevButton.style.display = 'none';
+		} else {
+			prevButton.style.display = '';
+		}
+	}
+
+	function fetchMatchups() {
+		fetch('https://todaysport-lerxv37nxa-uc.a.run.app/')
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				return response.json();
+			})
+			.then((data) => {
+				loadMatchups(JSON.parse(data));
+				fetchFutureGames();
+			})
+			.catch((error) => {
+				console.error('Error fetching data:', error);
+				alert('Failed to fetch data from the server');
+			});
+	}
+
+	function fetchFutureGames() {
+		fetch('https://todaysport-lerxv37nxa-uc.a.run.app/future')
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				return response.json();
+			})
+			.then((futureData) => {
+				loadFutureGames(JSON.parse(futureData));
+			})
+			.catch((error) => {
+				console.error('Error fetching data:', error);
+				alert('Failed to fetch data from the server');
+			});
+	}
+
+    function fetchNFLGames() {
+        fetch('https://todaysport-lerxv37nxa-uc.a.run.app/nfl-games')
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((nflData) => {
+            console.log(nflData);
+            loadNFLmatchups(nflData);
+        })
+        .catch((error) => {
+            console.error('Error fetching data:', error);
+            alert('Failed to fetch data from the server');
+        });
+    }
+
+	function loadMatchups(matchups) {
+        swiper1.removeAllSlides();
+		matchups.forEach((matchup, index) => {
+			const homeLogo = `<img src="https://www.mlbstatic.com/team-logos/team-cap-on-dark/${teamIDs[matchup.Home]}.svg" alt="${matchup.Home}" class="team-logo">`;
+			const visitorLogo = `<img src="https://www.mlbstatic.com/team-logos/team-cap-on-dark/${teamIDs[matchup.Visitor]}.svg" alt="${matchup.Visitor}" class="team-logo">`;
+			const slideContent = `<div class="swiper-slide">
+	        <div class="matchup-card">
+	            <div class="game-time">${matchup.GameTime}</div>
+	            <div class="team-section">
+	                <div class="team-wrapper">
+	                    ${homeLogo} <div class="team-name">${matchup.Home}</div>
+	                </div>
+	                <div class="matchup-value" id="ml-home-${index}" style="display: flex;">${matchup.HomeMoneyLine}</div>
+                  <div class="matchup-value" id="spread-home-${index}" style="display: none;">${matchup.HomeSpreadPercent}</div>
+                  <div class="matchup-value" id="total-home-${index}" style="display: none;">${matchup.TotalMoneyPercentHome}</div>
+	                <div class="team-wrapper">
+	                    ${visitorLogo} <div class="team-name">${matchup.Visitor}</div>
+	                </div>
+	                <div class="matchup-value" id="ml-visitor-${index}" style="display: flex;">${matchup.VisitorMoneyLine}</div>
+                  <div class="matchup-value" id="spread-visitor-${index}" style="display: none;">${matchup.VisitorSpreadPercent}</div>
+                  <div class="matchup-value" id="total-visitor-${index}" style="display: none;">${matchup.TotalMoneyPercentVisitor}</div>
+	            </div>
+	        </div>
+	    </div>`;
+			swiper1.appendSlide(slideContent);
+		});
+		updateDisplay();
+	}
+
+	function loadFutureGames(games) {
+		swiper1.appendSlide(
+			`<div class="swiper-slide"><div class="game-card"><div class="game-time">Upcoming Games</div></div></div>`
+		);
+
+		games.forEach((game, index) => {
+			const homeLogo = `<img src="https://www.mlbstatic.com/team-logos/team-cap-on-dark/${teamIDs[game.home_team]}.svg" alt="${game.home_team}" class="future-team-logo">`;
+			const visitorLogo = `<img src="https://www.mlbstatic.com/team-logos/team-cap-on-dark/${teamIDs[game.away_team]}.svg" alt="${game.away_team}" class="future-team-logo">`;
+			const slideContent = `<div class="swiper-slide">
+            <div class="future-game-card">
+				<div class="future-game-time">${game.date} @ ${game.time}</div>
+                <div class="future-team-section">
+                    <div class="future-team-wrapper">
+                        ${homeLogo} <div class="team-name">${game.home_team}</div>
+                        <span>&nbsp;vs.&nbsp;</span>
+                        ${visitorLogo} <div class="team-name">${game.away_team}</div>
+                    </div>
+                </div>
+                <div class="future-venue">${game.venue}</div>
+            </div>
+        </div>`;
+			swiper1.appendSlide(slideContent);
+		});
+		swiper1.update();
+	}
+
+    function loadNFLmatchups(games){
+        swiper1.removeAllSlides();
+        games.forEach((game, index) => {
+			const homeLogo = `<img src="${game.home_logo}" alt="${game.home_team}" class="team-logo">`;
+			const visitorLogo = `<img src="${game.away_logo}" alt="${game.away_team}" class="team-logo">`;
+			const slideContent = `<div class="swiper-slide">
+	        <div class="matchup-card">
+	            <div class="game-time">${game.game_date}</div>
+	            <div class="team-section">
+	                <div class="team-wrapper">
+	                    ${homeLogo} <div class="team-name">${game.home_team}</div>
+	                </div>
+	                <div class="matchup-value" id="ml-home-${index}" style="display: flex;">${game.home_team_moneyline_odds}</div>
+                    <div class="matchup-value" id="spread-home-${index}" style="display: none;">${game.home_team_spread_odds}</div>
+                    <div class="matchup-value" id="total-home-${index}" style="display: none;">${game.over_under}</div>
+	                <div class="team-wrapper">
+	                    ${visitorLogo} <div class="team-name">${game.away_team}</div>
+	                </div>
+	                <div class="matchup-value" id="ml-visitor-${index}" style="display: flex;">${game.away_team_moneyline_odds}</div>
+                    <div class="matchup-value" id="spread-visitor-${index}" style="display: none;">${game.away_team_spread_odds}</div>
+                    <div class="matchup-value" id="total-visitor-${index}" style="display: none;">${game.over_under}</div>
+	            </div>
+	        </div>
+	    </div>`;
+			swiper1.appendSlide(slideContent);
+		});
+		updateDisplay();
+    }
+
+	function updateDisplay() {
+    const sportType = document.getElementById('sportType').value;
+    const oddsTypeElement = document.getElementById(`oddsType-${sportType.toUpperCase()}`);
+    const oddsType = oddsTypeElement ? oddsTypeElement.value : 'ml';
+
+    document.querySelectorAll('.matchup-value').forEach((el) => {
+        el.style.display = 'none';
+    });
+    document.querySelectorAll(`[id^='${oddsType}-home-']`).forEach((el) => {
+        el.style.display = 'flex';
+    });
+    document.querySelectorAll(`[id^='${oddsType}-visitor-']`).forEach((el) => {
+        el.style.display = 'flex';
+    });
+}
+
+function updateSport() {
+    const sportType = document.getElementById('sportType').value;
+    const oddsTypeMLB = document.getElementById('oddsType-MLB');
+    const oddsTypeNFL = document.getElementById('oddsType-NFL');
+    swiper1.removeAllSlides();
+
+    if (sportType === 'mlb') {
+        oddsTypeMLB.style.display = 'block';
+        oddsTypeNFL.style.display = 'none';
+        fetchMatchups();
+    } else if (sportType === 'nfl') {
+        oddsTypeMLB.style.display = 'none';
+        oddsTypeNFL.style.display = 'block';
+        fetchNFLGames();
+    }
+}
+</script>
+</script>
