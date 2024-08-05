@@ -72,6 +72,8 @@ def final_NFL_json():
                         over_under = odds_item.get('overUnder', 'N/A')
                         away_team_spread_odds = odds_item.get('awayTeamOdds', {}).get('current', {}).get('spread', {}).get('alternateDisplayValue', 'N/A')
                         home_team_spread_odds = odds_item.get('homeTeamOdds', {}).get('current', {}).get('spread', {}).get('alternateDisplayValue', 'N/A')
+                        away_team_Pspread_odds = odds_item.get('awayTeamOdds', {}).get('current', {}).get('pointSpread', {}).get('alternateDisplayValue', 'N/A')
+                        home_team_Pspread_odds = odds_item.get('homeTeamOdds', {}).get('current', {}).get('pointSpread', {}).get('alternateDisplayValue', 'N/A')
                         away_team_moneyline_odds = odds_item.get('awayTeamOdds', {}).get('current', {}).get('moneyLine', {}).get('alternateDisplayValue', 'N/A')
                         home_team_moneyline_odds = odds_item.get('homeTeamOdds', {}).get('current', {}).get('moneyLine', {}).get('alternateDisplayValue', 'N/A')
                         
@@ -84,6 +86,8 @@ def final_NFL_json():
                             'over_under': over_under,
                             'away_team_spread_odds': away_team_spread_odds,
                             'home_team_spread_odds': home_team_spread_odds,
+                            'away_team_Pspread_odds': away_team_Pspread_odds,
+                            'home_team_Pspread_odds': home_team_Pspread_odds,
                             'away_team_moneyline_odds': away_team_moneyline_odds,
                             'home_team_moneyline_odds': home_team_moneyline_odds,
                             'home_logo': home_logo,

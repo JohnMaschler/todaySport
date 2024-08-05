@@ -199,7 +199,7 @@
 	<select id="oddsType-NFL" class="oddsType" onchange="updateDisplay()">
 		<option value="ml">ML</option>
 		<option value="spread">Spread</option>
-		<option value="total">O/U</option>
+		<option value="total">Pt. Spread</option>
 	</select>
 	<div class="swiper-container-un">
 		<div class="swiper-wrapper">
@@ -438,13 +438,13 @@
 	                </div>
 	                <div class="matchup-value" id="ml-home-${index}" style="display: flex;">${game.home_team_moneyline_odds}</div>
                     <div class="matchup-value" id="spread-home-${index}" style="display: none;">${game.home_team_spread_odds}</div>
-                    <div class="matchup-value" id="total-home-${index}" style="display: none;">${game.over_under}</div>
+                    <div class="matchup-value" id="total-home-${index}" style="display: none;">${game.home_team_Pspread_odds}</div>
 	                <div class="team-wrapper">
 	                    ${visitorLogo} <div class="team-name">${game.away_team}</div>
 	                </div>
 	                <div class="matchup-value" id="ml-visitor-${index}" style="display: flex;">${game.away_team_moneyline_odds}</div>
                     <div class="matchup-value" id="spread-visitor-${index}" style="display: none;">${game.away_team_spread_odds}</div>
-                    <div class="matchup-value" id="total-visitor-${index}" style="display: none;">${game.over_under}</div>
+                    <div class="matchup-value" id="total-visitor-${index}" style="display: none;">${game.away_team_Pspread_odds}</div>
 	            </div>
 	        </div>
 	    </div>`;
