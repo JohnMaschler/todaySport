@@ -18,7 +18,7 @@ def fetch_game_odds(odds_url):
 def reformat_NFL_date(date_str):
     date_obj = datetime.strptime(date_str, '%Y-%m-%dT%H:%MZ')
     new_date_obj = date_obj - timedelta(hours=7)
-    return new_date_obj.strftime('%d/%m %I:%M %p')
+    return new_date_obj.strftime('%m/%d %I:%M %p')
 
 def get_team_logos():
     logoMap = {}
