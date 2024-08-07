@@ -29,6 +29,11 @@ def get_team_logos():
         logoMap[team['team']['abbreviation']] = team['team']['logos'][0]['href']
     return logoMap
 
+def is_game_today_or_in_future(date_str):
+    game_date = datetime.strptime(date_str, '%Y-%m-%dT%H:%MZ').date()
+    current_date = (datetime.utcnow() - timedelta(hours=7)).date()
+    return game_date >= current_date
+
 def final_NFL_json():
     # Fetch team logos
     team_logos = get_team_logos()
@@ -50,51 +55,59 @@ def final_NFL_json():
         game_data = fetch_game_details(game_url)
         
         if game_data:
-            short_name = game_data.get('shortName', 'N/A')
-            game_date = reformat_NFL_date(game_data.get('date', 'N/A'))
+            game_date_str = game_data.get('date', 'N/A')
             
-            # Extract home and away team abbreviations
-            away_team, home_team = short_name.split(' @ ')
-            home_logo = team_logos.get(home_team, 'N/A')
-            away_logo = team_logos.get(away_team, 'N/A')
-            
-            competitions = game_data.get('competitions', [])
-            if competitions:
-                competition = competitions[0]
-                odds_ref = competition.get('odds', {}).get('$ref', '')
+            if is_game_today_or_in_future(game_date_str):
+                short_name = game_data.get('shortName', 'N/A')
+                game_date = reformat_NFL_date(game_date_str)
                 
-                if odds_ref:
-                    odds_data = fetch_game_odds(odds_ref)
-                    if odds_data and 'items' in odds_data and odds_data['items']:
-                        odds_item = odds_data['items'][0]
+                # Extract home and away team abbreviations
+                away_team, home_team = short_name.split(' @ ')
+                home_logo = team_logos.get(home_team, 'N/A')
+                away_logo = team_logos.get(away_team, 'N/A')
+                
+                competitions = game_data.get('competitions', [])
+                if competitions:
+                    competition = competitions[0]
+                    odds_ref = competition.get('odds', {}).get('$ref', '')
+                    
+                    if odds_ref:
+                        odds_data = fetch_game_odds(odds_ref)
+                        if odds_data and 'items' in odds_data and odds_data['items']:
+                            odds_item = odds_data['items'][0]
 
-                        spread = odds_item.get('spread', 'N/A')
-                        over_under = odds_item.get('overUnder', 'N/A')
-                        away_team_spread_odds = odds_item.get('awayTeamOdds', {}).get('current', {}).get('spread', {}).get('alternateDisplayValue', 'N/A')
-                        home_team_spread_odds = odds_item.get('homeTeamOdds', {}).get('current', {}).get('spread', {}).get('alternateDisplayValue', 'N/A')
-                        away_team_Pspread_odds = odds_item.get('awayTeamOdds', {}).get('current', {}).get('pointSpread', {}).get('alternateDisplayValue', 'N/A')
-                        home_team_Pspread_odds = odds_item.get('homeTeamOdds', {}).get('current', {}).get('pointSpread', {}).get('alternateDisplayValue', 'N/A')
-                        away_team_moneyline_odds = odds_item.get('awayTeamOdds', {}).get('current', {}).get('moneyLine', {}).get('alternateDisplayValue', 'N/A')
-                        home_team_moneyline_odds = odds_item.get('homeTeamOdds', {}).get('current', {}).get('moneyLine', {}).get('alternateDisplayValue', 'N/A')
-                        
-                        game_details = {
-                            'short_name': short_name,
-                            'away_team': away_team,
-                            'home_team': home_team,
-                            'game_date': game_date,
-                            'spread': spread,
-                            'over_under': over_under,
-                            'away_team_spread_odds': away_team_spread_odds,
-                            'home_team_spread_odds': home_team_spread_odds,
-                            'away_team_Pspread_odds': away_team_Pspread_odds,
-                            'home_team_Pspread_odds': home_team_Pspread_odds,
-                            'away_team_moneyline_odds': away_team_moneyline_odds,
-                            'home_team_moneyline_odds': home_team_moneyline_odds,
-                            'home_logo': home_logo,
-                            'away_logo': away_logo
-                        }
-                        all_games.append(game_details)
+                            spread = odds_item.get('spread', 'N/A')
+                            over_under = odds_item.get('overUnder', 'N/A')
+                            away_team_spread_odds = odds_item.get('awayTeamOdds', {}).get('current', {}).get('spread', {}).get('alternateDisplayValue', 'N/A')
+                            home_team_spread_odds = odds_item.get('homeTeamOdds', {}).get('current', {}).get('spread', {}).get('alternateDisplayValue', 'N/A')
+                            away_team_Pspread_odds = odds_item.get('awayTeamOdds', {}).get('current', {}).get('pointSpread', {}).get('alternateDisplayValue', 'N/A')
+                            home_team_Pspread_odds = odds_item.get('homeTeamOdds', {}).get('current', {}).get('pointSpread', {}).get('alternateDisplayValue', 'N/A')
+                            away_team_moneyline_odds = odds_item.get('awayTeamOdds', {}).get('current', {}).get('moneyLine', {}).get('alternateDisplayValue', 'N/A')
+                            home_team_moneyline_odds = odds_item.get('homeTeamOdds', {}).get('current', {}).get('moneyLine', {}).get('alternateDisplayValue', 'N/A')
+                            
+                            game_details = {
+                                'short_name': short_name,
+                                'away_team': away_team,
+                                'home_team': home_team,
+                                'game_date': game_date,
+                                'spread': spread,
+                                'over_under': over_under,
+                                'away_team_spread_odds': away_team_spread_odds,
+                                'home_team_spread_odds': home_team_spread_odds,
+                                'away_team_Pspread_odds': away_team_Pspread_odds,
+                                'home_team_Pspread_odds': home_team_Pspread_odds,
+                                'away_team_moneyline_odds': away_team_moneyline_odds,
+                                'home_team_moneyline_odds': home_team_moneyline_odds,
+                                'home_logo': home_logo,
+                                'away_logo': away_logo
+                            }
+                            all_games.append(game_details)
     return all_games
+
+# Print all game details
+# for game in all_games:
+#     print(f"Game: {game['short_name']}, Date: {game['game_date']}, Spread: {game['spread']}, Over/Under: {game['over_under']}, Away Spread Odds: {game['away_team_spread_odds']}, Home Spread Odds: {game['home_team_spread_odds']}, Away Moneyline Odds: {game['away_team_moneyline_odds']}, Home Moneyline Odds: {game['home_team_moneyline_odds']}, Home Logo: {game['home_logo']}, Away Logo: {game['away_logo']}")
+
 
 # Print all game details
 # for game in all_games:
