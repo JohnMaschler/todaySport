@@ -33,19 +33,23 @@ def is_game_today_or_in_future(date_str):
     game_date = datetime.strptime(date_str, '%Y-%m-%dT%H:%MZ').date()
     current_date = (datetime.utcnow() - timedelta(hours=7)).date()
     return game_date >= current_date
-
-def final_NFL_json():
+    
+def format_NFL_json(seasonYear, seasonType, weekNum):
     # Fetch team logos
     team_logos = get_team_logos()
 
     # TODO: implement logic to update seasonType and weekNum based on current date
-    seasonYear = 2024
-    seasonType = 1
-    weekNum = 2
 
     gamesURL = f"https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/{seasonYear}/types/{seasonType}/weeks/{weekNum}/events"
     response = requests.get(gamesURL)
     data = response.json()
+    
+    if seasonType == 1:
+        seasonTypeName = 'Preseason'
+    elif seasonType == 2:
+        seasonTypeName = 'Regular Season'
+    elif seasonType == 3:
+        seasonTypeName = 'Postseason'
 
     all_games = []
 
@@ -99,13 +103,45 @@ def final_NFL_json():
                                 'away_team_moneyline_odds': away_team_moneyline_odds,
                                 'home_team_moneyline_odds': home_team_moneyline_odds,
                                 'home_logo': home_logo,
-                                'away_logo': away_logo
+                                'away_logo': away_logo,
+                                'week': weekNum,
+                                'season': seasonTypeName
                             }
                             all_games.append(game_details)
     return all_games
 
+
+def final_NFL_json():
+    seasonYear = 2024
+    seasonType = 1
+    weekNum = 2
+    all_games = format_NFL_json(seasonYear, seasonType, weekNum)
+    desired_games_count = 32  # Adjust this number as needed
+
+    while len(all_games) < desired_games_count:
+        weekNum += 1
+        if weekNum > 4 and seasonType == 1:
+            seasonType += 1
+            weekNum = 1
+        elif weekNum > 18 and seasonType == 2:  # Move from Regular Season to Postseason
+            seasonType += 1
+            weekNum = 1
+        additional_games = format_NFL_json(seasonYear, seasonType, weekNum)
+        all_games.extend(additional_games)
+        
+        # Break if no additional games are found to avoid infinite loop
+        if not additional_games:
+            break
+
+    return all_games
+
 # Print all game details
-# for game in all_games:
+# games = final_NFL_json()
+# for game in games:
+#     print(game)
+
+
+
 #     print(f"Game: {game['short_name']}, Date: {game['game_date']}, Spread: {game['spread']}, Over/Under: {game['over_under']}, Away Spread Odds: {game['away_team_spread_odds']}, Home Spread Odds: {game['home_team_spread_odds']}, Away Moneyline Odds: {game['away_team_moneyline_odds']}, Home Moneyline Odds: {game['home_team_moneyline_odds']}, Home Logo: {game['home_logo']}, Away Logo: {game['away_logo']}")
 
 
