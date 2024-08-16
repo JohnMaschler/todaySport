@@ -80,15 +80,19 @@ def formatData(df_dime):
             "Home": data[0][str(i+1)],
             "VisitorSpread": data[1][str(i)],
             "HomeSpread": data[1][str(i+1)],
-            "VisitorSpreadPercent": data[2][str(i)],
-            "HomeSpreadPercent": data[2][str(i+1)],
+            "VisitorSpreadPercent": data[2][str(i)], # Money %
+            "HomeSpreadPercent": data[2][str(i+1)], # Money %
+            "VisitorSpreadBetPercent": data[3][str(i)],
+            "HomeSpreadBetPercent": data[3][str(i)],
             "VisitorMoneyLine": data[4][str(i)],
             "HomeMoneyLine": data[4][str(i+1)],
-            "HomeMoneyLinePercent": data[5][str(i)],
-            "VisitorMoneyLinePercent": data[5][str(i+1)],
+            "HomeMoneyLinePercent": data[5][str(i)], # Money %
+            "VisitorMoneyLinePercent": data[5][str(i+1)], # Money %
+            "VisitorMoneyLineBetPercent": data[6][str(i)], # Bet %
+            "HomeMoneyLineBetPercent": data[6][str(i+1)], # Bet %
             "TotalRuns": data[7][str(i)],
-            "TotalMoneyPercentVisitor": data[8][str(i)],
-            "TotalMoneyPercentHome": data[8][str(i+1)]
+            "TotalMoneyPercentVisitor": data[8][str(i)], # Money % on total runs o/u
+            "TotalMoneyPercentHome": data[8][str(i+1)] # Money % on total runs o/u
         }
         matchups.append(matchup)
         matchups_json = json.dumps(matchups)
