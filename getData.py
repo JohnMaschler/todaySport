@@ -83,7 +83,7 @@ def formatData(df_dime):
             "VisitorSpreadPercent": data[2][str(i)], # Money %
             "HomeSpreadPercent": data[2][str(i+1)], # Money %
             "VisitorSpreadBetPercent": data[3][str(i)],
-            "HomeSpreadBetPercent": data[3][str(i)],
+            "HomeSpreadBetPercent": data[3][str(i+1)],
             "VisitorMoneyLine": data[4][str(i)],
             "HomeMoneyLine": data[4][str(i+1)],
             "VisitorMoneyLinePercent": data[5][str(i)], # Money %
