@@ -124,62 +124,6 @@ def get_game_times(url):
         return f"Failed to fetch data: Status code {response.status_code}"
 
 
-# def includeGameTimes(game_times, matchups_json):
-#     # there is a small chance that teams that haven't played yet (in the past couple days) have the wrong abbreviation
-#     team_mapping = {
-#         "ARI": "Arizona Diamondbacks",
-#         "ATL": "Atlanta Braves",
-#         "BAL": "Baltimore Orioles",
-#         "BOS": "Boston Red Sox",
-#         "CHC": "Chicago Cubs",
-#         "CHW": "Chicago White Sox",
-#         "CIN": "Cincinnati Reds",
-#         "CLE": "Cleveland Guardians",
-#         "COL": "Colorado Rockies",
-#         "DET": "Detroit Tigers",
-#         "HOU": "Houston Astros",
-#         "KC": "Kansas City Royals",
-#         "LAA": "Los Angeles Angels",
-#         "LAD": "Los Angeles Dodgers",
-#         "MIA": "Miami Marlins",
-#         "MIL": "Milwaukee Brewers",
-#         "MIN": "Minnesota Twins",
-#         "NYM": "New York Mets",
-#         "NYY": "New York Yankees",
-#         "OAK": "Oakland Athletics",
-#         "PHI": "Philadelphia Phillies",
-#         "PIT": "Pittsburgh Pirates",
-#         "SD": "San Diego Padres",
-#         "SF": "San Francisco Giants",
-#         "SEA": "Seattle Mariners",
-#         "STL": "St. Louis Cardinals",
-#         "TB": "Tampa Bay Rays",
-#         "TEX": "Texas Rangers",
-#         "TOR": "Toronto Blue Jays",
-#         "WSH": "Washington Nationals"
-#     }
-
-#     data = json.loads(matchups_json)
-#     for item in data:
-#         # contruct the full name key from the abbreviations using the mapping
-#         visitor_full = team_mapping[item['Visitor']]
-#         home_full = team_mapping[item['Home']]
-#         full_name_key = f"{visitor_full} @ {home_full}"
-        
-#         # find the corresponding game time and add it to the dictionary
-#         if full_name_key in game_times:
-#             item['GameTime'] = game_times[full_name_key]
-#         else:
-#             item['GameTime'] = "Today"
-
-#     # updated data back to JSON
-#     updated_json_data = json.dumps(data)
-#     # print(updated_json_data)
-#     # j_string = "'" + updated_json_data + "'"
-#     # print(j_string)
-#     return updated_json_data
-
-
 def includeGameTimes(game_times, matchups_json):
     # there is a small chance that teams that haven't played yet (in the past couple days) have the wrong abbreviation
     team_mapping = {
@@ -216,28 +160,25 @@ def includeGameTimes(game_times, matchups_json):
     }
 
     data = json.loads(matchups_json)
-    used_times = {}  # Track used times to prevent duplicates
-
     for item in data:
+        # contruct the full name key from the abbreviations using the mapping
         visitor_full = team_mapping[item['Visitor']]
         home_full = team_mapping[item['Home']]
         full_name_key = f"{visitor_full} @ {home_full}"
         
+        # find the corresponding game time and add it to the dictionary
         if full_name_key in game_times:
-            # Ensure each game has a unique time in case of doubleheaders
-            game_time = game_times[full_name_key]
-            if game_time in used_times:
-                # Find the next available time slot
-                alternative_time = datetime.strptime(game_time, "%I:%M %p") + timedelta(hours=3)
-                game_time = alternative_time.strftime("%I:%M %p")
-            item['GameTime'] = game_time
-            used_times[game_time] = True
+            item['GameTime'] = game_times[full_name_key]
         else:
             item['GameTime'] = "Today"
 
-    # Updated data back to JSON
+    # updated data back to JSON
     updated_json_data = json.dumps(data)
+    # print(updated_json_data)
+    # j_string = "'" + updated_json_data + "'"
+    # print(j_string)
     return updated_json_data
+
 
 def get_final_json():
     url = "https://statsapi.mlb.com/api/v1/schedule/games/?sportId=1"
