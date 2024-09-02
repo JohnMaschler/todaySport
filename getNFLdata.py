@@ -63,10 +63,14 @@ def format_NFL_json(seasonYear, seasonType, weekNum):
             
             if is_game_today_or_in_future(game_date_str):
                 short_name = game_data.get('shortName', 'N/A')
+                
                 game_date = reformat_NFL_date(game_date_str)
                 
                 # Extract home and away team abbreviations
-                away_team, home_team = short_name.split(' @ ')
+                if 'VS' in short_name:
+                    home_team, away_team = short_name.split(' VS ')
+                else:
+                    away_team, home_team = short_name.split(' @ ')
                 home_logo = team_logos.get(home_team, 'N/A')
                 away_logo = team_logos.get(away_team, 'N/A')
                 
@@ -113,18 +117,18 @@ def format_NFL_json(seasonYear, seasonType, weekNum):
 
 def final_NFL_json():
     seasonYear = 2024
-    seasonType = 1
-    weekNum = 2
+    seasonType = 2
+    weekNum = 1
     all_games = format_NFL_json(seasonYear, seasonType, weekNum)
     desired_games_count = 32  # Adjust this number as needed
 
     while len(all_games) < desired_games_count:
         weekNum += 1
-        if weekNum > 4 and seasonType == 1:
-            seasonType += 1
-            weekNum = 1
-        elif weekNum > 18 and seasonType == 2:  # Move from Regular Season to Postseason
-            seasonType += 1
+        # if weekNum > 4 and seasonType == 1:
+        #     seasonType += 1
+        #     weekNum = 1
+        if weekNum > 18 and seasonType == 2:  # Move from Regular Season to Postseason
+            seasonType = 3
             weekNum = 1
         additional_games = format_NFL_json(seasonYear, seasonType, weekNum)
         all_games.extend(additional_games)
