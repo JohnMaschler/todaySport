@@ -105,40 +105,27 @@ def get_game_times(url):
     if response.status_code == 200:
         data = response.json()
         game_times = {}
-        
         # Loop through the dates, looking for today's date
         for date_info in data['dates']:
+
             if date_info['date'] == datetime.now().strftime("%Y-%m-%d"):
-                game_count = {}  # To track the number of games for a particular matchup
-                
+
                 for game in date_info['games']:
-                    visitor_team = game['teams']['away']['team']['name']
-                    home_team = game['teams']['home']['team']['name']
-                    teams_key = f"{visitor_team} @ {home_team}"
-                    
-                    # Track the game number for doubleheaders
-                    if teams_key in game_count:
-                        game_count[teams_key] += 1
-                    else:
-                        game_count[teams_key] = 1
-                    
-                    # Use ordinal for the game number in the key
-                    teams_key_with_ordinal = f"{teams_key} (Game {game_count[teams_key]})"
-                    
-                    # Determine if the game is live
-                    if game["status"]["abstractGameState"] == "Live":
-                        game_times[teams_key_with_ordinal] = "Live"
-                    else:
-                        # Convert the gameDate to PST
-                        game_date = datetime.fromisoformat(game['gameDate'].replace("Z", "+00:00")) - timedelta(hours=7)
-                        game_time = game_date.strftime("%I:%M %p")
-                        game_times[teams_key_with_ordinal] = game_time
-        
+
+                    game_date = datetime.fromisoformat(game['gameDate'].replace("Z", "+00:00")) - timedelta(hours=7)
+
+                    game_time = game_date.strftime("%I:%M %p")
+
+                    teams_key = f"{game['teams']['away']['team']['name']} @ {game['teams']['home']['team']['name']}"
+
+                    game_times[teams_key] = game_time
         return game_times
     else:
         return f"Failed to fetch data: Status code {response.status_code}"
 
+
 def includeGameTimes(game_times, matchups_json):
+    # there is a small chance that teams that haven't played yet (in the past couple days) have the wrong abbreviation
     team_mapping = {
         "ARI": "Arizona Diamondbacks",
         "ATL": "Atlanta Braves",
@@ -173,28 +160,23 @@ def includeGameTimes(game_times, matchups_json):
     }
 
     data = json.loads(matchups_json)
-    game_count = {}
-    
     for item in data:
+        # contruct the full name key from the abbreviations using the mapping
         visitor_full = team_mapping[item['Visitor']]
         home_full = team_mapping[item['Home']]
         full_name_key = f"{visitor_full} @ {home_full}"
         
-        # Track the game number for doubleheaders
-        if full_name_key in game_count:
-            game_count[full_name_key] += 1
-        else:
-            game_count[full_name_key] = 1
-        
-        full_name_key_with_ordinal = f"{full_name_key} (Game {game_count[full_name_key]})"
-        
-        # Assign the corresponding game time
-        if full_name_key_with_ordinal in game_times:
-            item['GameTime'] = game_times[full_name_key_with_ordinal]
+        # find the corresponding game time and add it to the dictionary
+        if full_name_key in game_times:
+            item['GameTime'] = game_times[full_name_key]
         else:
             item['GameTime'] = "Today"
 
+    # updated data back to JSON
     updated_json_data = json.dumps(data)
+    # print(updated_json_data)
+    # j_string = "'" + updated_json_data + "'"
+    # print(j_string)
     return updated_json_data
 
 
