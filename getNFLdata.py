@@ -30,9 +30,10 @@ def get_team_logos():
     return logoMap
 
 def is_game_today_or_in_future(date_str):
-    game_date = datetime.strptime(date_str, '%Y-%m-%dT%H:%MZ').date()
-    current_date = (datetime.utcnow() - timedelta(hours=7)).date()
-    return game_date >= current_date
+    game_date = datetime.strptime(date_str, '%Y-%m-%dT%H:%MZ')
+    current_utc_time = datetime.utcnow()
+    
+    return game_date >= current_utc_time
     
 def format_NFL_json(seasonYear, seasonType, weekNum):
     # Fetch team logos
@@ -65,6 +66,7 @@ def format_NFL_json(seasonYear, seasonType, weekNum):
                 short_name = game_data.get('shortName', 'N/A')
                 
                 game_date = reformat_NFL_date(game_date_str)
+                
                 
                 # Extract home and away team abbreviations
                 if 'VS' in short_name:
@@ -138,17 +140,3 @@ def final_NFL_json():
             break
 
     return all_games
-
-# Print all game details
-# games = final_NFL_json()
-# for game in games:
-#     print(game)
-
-
-
-#     print(f"Game: {game['short_name']}, Date: {game['game_date']}, Spread: {game['spread']}, Over/Under: {game['over_under']}, Away Spread Odds: {game['away_team_spread_odds']}, Home Spread Odds: {game['home_team_spread_odds']}, Away Moneyline Odds: {game['away_team_moneyline_odds']}, Home Moneyline Odds: {game['home_team_moneyline_odds']}, Home Logo: {game['home_logo']}, Away Logo: {game['away_logo']}")
-
-
-# Print all game details
-# for game in all_games:
-#     print(f"Game: {game['short_name']}, Date: {game['game_date']}, Spread: {game['spread']}, Over/Under: {game['over_under']}, Away Spread Odds: {game['away_team_spread_odds']}, Home Spread Odds: {game['home_team_spread_odds']}, Away Moneyline Odds: {game['away_team_moneyline_odds']}, Home Moneyline Odds: {game['home_team_moneyline_odds']}, Home Logo: {game['home_logo']}, Away Logo: {game['away_logo']}")
